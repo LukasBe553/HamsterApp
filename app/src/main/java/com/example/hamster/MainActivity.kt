@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.constraintlayout.widget.ConstraintLayout
 
 class MainActivity : AppCompatActivity(),  SensorEventListener{
 
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity(),  SensorEventListener{
     private var light: Sensor? = null
     private var pressure: Sensor? = null
     private var temp: Sensor? = null
+    private var humidity: Sensor? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,28 +31,42 @@ class MainActivity : AppCompatActivity(),  SensorEventListener{
         light = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
         pressure = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE)
         temp = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
+        humidity = sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY)
 
     }
 
 
     override fun onSensorChanged(event: SensorEvent) {
-            when(event.values[0]) {
-                in -300f .. 17f -> findViewById<TextView>(R.id.tv_temp).setTextColor(Color.parseColor("#0093ff"))
-                in  17f .. 25f -> findViewById<TextView>(R.id.tv_temp).setTextColor(Color.BLACK)
-                in  25f .. Float.MAX_VALUE -> findViewById<TextView>(R.id.tv_temp).setTextColor(Color.parseColor("#ff5900"))
-                else -> {}
-            }
+
             if (event.sensor?.type == Sensor.TYPE_LIGHT) {
+
+                when (event.values[0]){
+                    in 0f .. 200f -> findViewById<ConstraintLayout>(R.id.con).setBackgroundColor(Color.BLACK)
+                    else -> { findViewById<ConstraintLayout>(R.id.con).setBackgroundColor(Color.WHITE)
+                    }
+
+                }
                 findViewById<TextView>(R.id.tv_lux).append(event.values[0].toString() + "lux" + "\n")
                 findViewById<ScrollView>(R.id.sv_lux).fullScroll(View.FOCUS_DOWN)
             }
             if (event.sensor?.type == Sensor.TYPE_AMBIENT_TEMPERATURE) {
+                when(event.values[0]) {
+                    in -300f .. 17f -> findViewById<TextView>(R.id.tv_temp).setTextColor(Color.parseColor("#0093ff"))
+                    in  17f .. 25f -> findViewById<TextView>(R.id.tv_temp).setTextColor(Color.BLACK)
+                    in  25f .. Float.MAX_VALUE -> findViewById<TextView>(R.id.tv_temp).setTextColor(Color.parseColor("#ff5900"))
+                    else -> {}
+                }
                 findViewById<TextView>(R.id.tv_temp).append(event.values[0].toString() + "°C" + "\n")
                 findViewById<ScrollView>(R.id.sv_temp).fullScroll(View.FOCUS_DOWN)
+
             }
 
             if (event.sensor?.type == Sensor.TYPE_PRESSURE) {
                 findViewById<TextView>(R.id.tv_pressure).text = event.values[0].toString()
+            }
+
+            if (event.sensor?.type == Sensor.TYPE_RELATIVE_HUMIDITY) {
+                findViewById<TextView>(R.id.tv_humidity).text = event.values[0].toString()
             }
 
 
@@ -65,6 +81,7 @@ class MainActivity : AppCompatActivity(),  SensorEventListener{
         sensorManager.registerListener(this, light, SensorManager.SENSOR_DELAY_NORMAL)
         sensorManager.registerListener(this, pressure, SensorManager.SENSOR_DELAY_NORMAL)
         sensorManager.registerListener(this, temp, SensorManager.SENSOR_DELAY_NORMAL )
+        sensorManager.registerListener(this,humidity,SensorManager.SENSOR_DELAY_NORMAL)
     }
 
     override fun onPause() {

@@ -97,11 +97,13 @@
         app:layout_constraintBottom_toBottomOf="@id/con">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tv_humidity"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="100%"
+            android:background="@color/white"
+
             android:textSize="50sp" />
 
         <TextView
@@ -109,6 +111,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/white"
             android:text="100%"
 
             android:textSize="50sp" />
@@ -118,6 +121,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/white"
             android:text="100%"
             android:textSize="50sp" />
     </LinearLayout>
@@ -136,6 +140,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Humidity"
+            android:background="@color/white"
             android:textSize="30sp" />
 
         <TextView
@@ -144,6 +149,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Pressure"
+            android:background="@color/white"
             android:textSize="30sp" />
 
         <TextView
@@ -151,6 +157,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/white"
             android:text="Some- thing"
             android:textSize="30sp" />
     </LinearLayout>
